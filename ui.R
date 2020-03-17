@@ -2,6 +2,7 @@
 
 library(shiny)
 library(bootstraplib)
+library(waiter)
 
 bs_theme_new(version = "4+3", bootswatch = "slate")
 
@@ -17,6 +18,7 @@ ui = navbarPage(
   tabPanel(
     
     bootstrap(),
+    use_waitress(),
     #shinyWidgets::useBs4Dash(),
     
     title = "Home",

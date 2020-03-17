@@ -1,8 +1,10 @@
 
 
+library(gifski)
+
 the_data = function(n) {
-  x0 = 0  # origin x co-ordinate
-  y0 = 0  # origin y co-ordinate
+  x0 = 0  # origi
+  y0 = 0  # origin
   
   x = runif(n, -1, 1)
   y = runif(n, -1, 1)
@@ -25,6 +27,11 @@ estimate_pi = function(the_data) {
 
 make_anim1 = function(the_data) {
   
+  n = nrow(the_data)
+  
+  c1 = ifelse(n == 10000, "#DA291C", "#447099")  # color inside
+  c2 = ifelse(n == 10000, "#006747", "#515960")
+  
   p1 = ggplot() +
     geom_circle(aes(x0 = 0, y0 = 0, r = 1), color = "#515960") +
     geom_rect(aes(xmin = -1,ymin = -1, xmax = 1, ymax = 1),
@@ -34,11 +41,13 @@ make_anim1 = function(the_data) {
     theme(plot.background = element_rect(fill = "#272b30"),
           panel.background = element_rect(fill = "#272b30", color = "#272b30"),
           legend.position = "none") +
-    scale_color_manual(values = c("#DA291C", "#006747")) + 
-    labs(caption = "Points falling. It's like rain, just colored!") +
+    scale_color_manual(values = c(c1, c2)) + 
+    labs(
+      caption = "Can you smell the rain?"
+    ) +
     transition_reveal(along = id)
   
-  anim1 = animate(p1, nframes = 30, fps = 3, duration = 10,
+  anim1 = animate(p1, nframes = 10, fps = 1, duration = 10,
                   width = 680, height = 600, res = 120,
                   renderer = gifski_renderer(loop = F))
   
@@ -47,19 +56,21 @@ make_anim1 = function(the_data) {
 
 make_anim2 = function(the_data) {
   p2 = ggplot(the_data) +
-    geom_line(aes(x = id, y = pi_hat), color = "#447099") + 
-    geom_hline(yintercept = pi, color = "#E7553C", alpha = .5) +
+      geom_line(aes(x = id, y = pi_hat), color = "#E7553C") + 
+    geom_hline(yintercept = pi, color = "#75AADB", alpha = .5) +
     hrbrthemes::theme_ft_rc() +
     ylim(0, 6) +
     theme(plot.background = element_rect(fill = "#272b30"),
           panel.background = element_rect(fill = "#272b30", color = "#272b30")) +
     labs(
       title = "pie_hat: {the_data$pi_hat[frame_along]}",
-      caption = "The simulation in real time") +
-    xlab("# of iterations") +
+      caption = "The simulation in real time.
+      Guess which line shows the original value!"
+    ) +
+    xlab("# of points") +
     transition_reveal(along = id)
   
-  anim2 = animate(p2, nframes = 30, fps = 3, duration = 10,
+  anim2 = animate(p2, nframes = 10, fps = 1, duration = 10,
                   width = 600, height = 500, res = 120,
                   renderer = gifski_renderer(loop = F))
   
