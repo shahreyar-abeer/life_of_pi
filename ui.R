@@ -3,10 +3,17 @@
 library(shiny)
 library(bootstraplib)
 
+bs_theme_new(bootswatch = "slate")
+
+shinyOptions(plot.autocolors = TRUE)
+
 ui = navbarPage(
-  title = "Estimating pi",
+  title = "Life of Pi: A Monte Carlo Simulation",
   
   tabPanel(
+    
+    bootstrap(),
+    
     title = "Home",
     
     sidebarLayout(
