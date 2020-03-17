@@ -8,50 +8,41 @@ library(ggforce)
 server = function(input, output){
   
   
+  observeEvent(input$run, {
+    d1 = the_data(input$n)
+    
+    output$anim1 = renderImage({
+      anim1 = make_anim1(d1)
+      
+      outfile <- tempfile(fileext='.gif')
+      save_animation(anim1, outfile)
+      
+      list(src = outfile,
+           contentType = 'image/gif'
+           #alt = "This is alternate text"
+      )
+      
+    }, deleteFile = TRUE)
+    
+    ##############################################
+    output$anim2 = renderImage({
+      anim2 = make_anim2(d1)
+      
+      outfile <- tempfile(fileext='.gif')
+      save_animation(anim2, outfile)
+      
+      list(src = outfile,
+           contentType = 'image/gif'
+           #alt = "This is alternate text"
+      )
+      
+    }, deleteFile = TRUE)
+  })
   
-  output$anim1 = renderImage({
-    
-    
-    n = input$n
-    
-    
-    d1 = the_data(n)
-    anim1 = make_anim1(d1)
-    
-    # x1 = runif(n, -1, 1)
-    # y1 = runif(n, -1, 1)
-    # type = factor(sample(c("In", "Out"), n, replace = T))
-    # t = 1:n
-    # 
-    # d = data.frame(x1, y1, t, type)
-    # 
-    # p = ggplot() + 
-    #   geom_circle(aes(x0 = 0, y0 = 0, r = 1)) +
-    #   geom_rect(aes(xmin = -1,ymin = -1, xmax = 1, ymax = 1),
-    #             alpha = 0, color = "black") +
-    #   geom_point(aes(x = x1, y = y1, group = seq_along(t), color = type), data = d) +
-    #   #hrbrthemes::theme_ft_rc() +
-    #   scale_color_manual(values = c("#b8e186", "red")) + 
-    #   transition_reveal(along = t)
-    # 
-    # 
-    #   
-    # an = animate(p, nframes = 10, width = 800, height = 600, res = 150, renderer = gifski_renderer(loop = F))  
-    # 
-    
-    
-    outfile <- tempfile(fileext='.gif')
-    
-    save_animation(anim1, outfile)
-    
-    #anim_save("outfile.gif", animation = an)
-    
-     
-    
-    list(src = outfile,
-         contentType = 'image/gif'
-          #alt = "This is alternate text"
-    )
-    
-  }, deleteFile = TRUE)
+  
+  
+  # output$value = bs4Dash::renderbs4ValueBox({
+  #   bs4Dash::valueBox(value = 2, subtitle = "Pi")
+  # })
+  
 }
