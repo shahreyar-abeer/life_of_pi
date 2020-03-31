@@ -4,60 +4,94 @@
 library(ggplot2)
 library(gganimate)
 library(ggforce)
+library(glue)
 
 server = function(input, output){
   
-  waitress1 = Waitress$new("#anim1", infinite = TRUE)
+  
+  shinyjs::addClass(id = "text", class = "navbar-right")
+  
+  waitress1 = Waitress$new("#anim1", theme = "overlay-radius", infinite = TRUE)
   waitress2 = Waitress$new("#anim2", infinite = TRUE)
   
   observeEvent(input$run, {
-    d1 = the_data(input$n)
+    
+    
+    n = input$n
+    d1 = the_data(n)
 
     output$anim1 = renderImage({
       
+      w11 = Waitress$new("#anim1")$start(h5("Here goes"))
+      #waitress1$start(div(h5("Science doesn't run the world..."), style = "color: #88837d;"))
       
-      waitress1$start(h3("Good things take time"))
+      if(n %in% ns) {
+        
+        filename <- normalizePath(
+          file.path('./anims2', glue("anim1_{n}.gif"))
+        )
+        
+        for(i in 1:10){
+          w11$inc(10)
+          Sys.sleep(.2)
+        }
+        
+        
+        w11$close()
+        list(src = filename,
+             contentType = 'image/gif'
+        )
+        
+      }
       
-      anim1 = make_anim1(d1)
+      else{
+        anim1 = make_anim1(d1)
+        
+        outfile <- tempfile(fileext='.gif')
+        save_animation(anim1, outfile)
+        
+        
+        waitress1$close()
+        
+        list(src = outfile,
+             contentType = 'image/gif'
+        )
+      }
       
-      outfile <- tempfile(fileext='.gif')
-      save_animation(anim1, outfile)
       
-      waitress1$close()
-      
-      list(src = outfile,
-           contentType = 'image/gif'
-           #alt = "This is alternate text"
-      )
-      
-      
-      
-    }, deleteFile = TRUE)
+    }, deleteFile = FALSE)
     
     ##############################################
     output$anim2 = renderImage({
       
-      waitress2$start(h3("It goes again"))
+      if(n %in% ns) {
+        waitress2$start(div(h5("Science just says how the world runs"), style = "color: #88837d;"))
+        
+        filename <- normalizePath(
+          file.path('./anims2', glue("anim2_{n}.gif"))
+        )
+        Sys.sleep(2)
+        waitress2$close()
+        list(src = filename,
+             contentType = 'image/gif'
+        )
+        
+      }
       
-      anim2 = make_anim2(d1)
-      
-      outfile <- tempfile(fileext='.gif')
-      save_animation(anim2, outfile)
-      
-      waitress2$close()
-      
-      list(src = outfile,
-           contentType = 'image/gif'
-           #alt = "This is alternate text"
-      )
-      
-    }, deleteFile = TRUE)
+      else {
+        anim2 = make_anim2(d1)
+        
+        outfile <- tempfile(fileext='.gif')
+        save_animation(anim2, outfile)
+        
+        waitress2$close()
+        
+        list(src = outfile,
+             contentType = 'image/gif'
+             #alt = "This is alternate text"
+        )
+      }
+    }, deleteFile = FALSE)
   })
-  
-  
-  
-  # output$value = bs4Dash::renderbs4ValueBox({
-  #   bs4Dash::valueBox(value = 2, subtitle = "Pi")
-  # })
   
 }
