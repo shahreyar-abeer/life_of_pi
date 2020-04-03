@@ -5,53 +5,69 @@ library(ggplot2)
 library(gganimate)
 library(ggforce)
 library(glue)
+library(waiter)
 
-server = function(input, output){
+server = function(input, output, session){
   
+  Sys.sleep(2)
+  waiter_hide()
   
-  shinyjs::addClass(id = "text", class = "navbar-right")
+  observeEvent(input$go_to_work, {
+    updateNavbarPage(session = session, "navbar", "Work")
+  }) 
   
-  waitress1 = Waitress$new("#anim1", theme = "overlay-radius", infinite = TRUE)
-  waitress2 = Waitress$new("#anim2", infinite = TRUE)
+  ## initialize loading screen for anim1
+  w1 = Waiter$new(
+    id = "anim1",
+    html = tagList(
+      div(
+        spin_loaders(42, color = "#aaa"),
+        div("Loading...",style = "color:#aaa;")
+    )),
+    color = "#272b30"
+  )
+  
+  ## intialize loading screen for anim2
+  w2 = Waiter$new(
+    id = "anim2",
+    html = tagList(
+      div(
+        spin_loaders(42, color = "#aaa"),
+        div("Loading...", align = "left", style = "color:#aaa;")
+      )),
+    color = "#272b30"
+  )
   
   observeEvent(input$run, {
-    
-    
     n = input$n
     d1 = the_data(n)
+    disable(id = "run")
 
     output$anim1 = renderImage({
       
-      w11 = Waitress$new("#anim1")$start(h5("Here goes"))
-      #waitress1$start(div(h5("Science doesn't run the world..."), style = "color: #88837d;"))
       
-      if(n %in% ns) {
-        
+      
+      w1$show()  # show the waiter screen
+      
+      if(n %in% pre_rendered) {
         filename <- normalizePath(
-          file.path('./anims2', glue("anim1_{n}.gif"))
+          file.path('./anims2', glue("anim1_{n}.gif"))  # get a pre-rendered image
         )
+        Sys.sleep(1.5)  # to show the loading bar
+        w1$hide()  # hide the waiter screen
         
-        for(i in 1:10){
-          w11$inc(10)
-          Sys.sleep(.2)
-        }
-        
-        
-        w11$close()
         list(src = filename,
              contentType = 'image/gif'
         )
-        
       }
       
       else{
-        anim1 = make_anim1(d1)
-        
+        anim1 = make_anim1(d1)  # make the animation
         outfile <- tempfile(fileext='.gif')
         save_animation(anim1, outfile)
         
+        w1$hide()
         
-        waitress1$close()
         
         list(src = outfile,
              contentType = 'image/gif'
@@ -63,15 +79,17 @@ server = function(input, output){
     
     ##############################################
     output$anim2 = renderImage({
+      w2$show()
       
-      if(n %in% ns) {
-        waitress2$start(div(h5("Science just says how the world runs"), style = "color: #88837d;"))
-        
+      if(n %in% pre_rendered) {
         filename <- normalizePath(
           file.path('./anims2', glue("anim2_{n}.gif"))
         )
-        Sys.sleep(2)
-        waitress2$close()
+        Sys.sleep(1.5)
+        w2$hide()
+        delay(12000, enable("run"))  # enable the action button when animation is done
+        
+        
         list(src = filename,
              contentType = 'image/gif'
         )
@@ -84,14 +102,13 @@ server = function(input, output){
         outfile <- tempfile(fileext='.gif')
         save_animation(anim2, outfile)
         
-        waitress2$close()
-        
+        w2$hide()
+        delay(10000, enable("run"))  # enable the action button when animation is done
         list(src = outfile,
              contentType = 'image/gif'
-             #alt = "This is alternate text"
         )
       }
     }, deleteFile = FALSE)
+    
   })
-  
 }
