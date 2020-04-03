@@ -1,4 +1,4 @@
-# life_of_pi
+# Life of Pi: A Monte Carlo Simulation
 
 This app is designed to run a Monte Carlo Simulation to estimate the value of π.
 I'm sorry to disappoint some of you who might have though it had something to do with the movie.
