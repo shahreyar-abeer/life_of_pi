@@ -51,7 +51,7 @@ server = function(input, output, session){
       
       if(n %in% pre_rendered) {
         filename <- normalizePath(
-          file.path('./anims2', glue("anim1_{n}.gif"))  # get a pre-rendered image
+            file.path('./anims2', glue("anim1_{n}.gif"))  # get a pre-rendered image
         )
         Sys.sleep(1.5)  # to show the loading bar
         w1$hide()  # hide the waiter screen
