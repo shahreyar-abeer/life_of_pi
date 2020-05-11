@@ -130,7 +130,7 @@ ui = tagList(
             tags$a("here.", href = 'http://www.science.smith.edu/dftwiki/images/b/b9/MonteCarloBookChapter.pdf', target = '_blank'),
             "And no, there are no tigers there!"),
           br(),
-          div(actionButton("go_to_work", "Enough chit-chat, let's get to work!", status = "success"), align = "center")
+          div(actionButton("go_to_work", "Enough chit-chat, show me some work!", status = "success"), align = "center")
         ),
         
         column(
@@ -166,7 +166,7 @@ ui = tagList(
           p("In 2017, a Swiss scientist computed more than 22 trillion digits of pi!
             The calculation took over a hundred days."),
           p("Oh, I hope you have tried the special number, it's 10002."),
-          p("And if you feel down, have some pi!"),
+          p("And if you feel down, don't hesitate to have some pie!"),
           hr()
         ),
         
