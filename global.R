@@ -5,7 +5,7 @@ library(gifski)
 
 ## values for slider input
 pre_rendered = c(1 %o% 10^(2:4), 10002)
-slider_vals = sort(c(pre_rendered, sample(100:10000, 5)))
+slider_vals = sort(c(pre_rendered))
 
 the_data = function(n) {
   x0 = 0  # origin
