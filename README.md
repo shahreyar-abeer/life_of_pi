@@ -20,3 +20,4 @@ The points are independent and may fall at any place within the square.
 We then take a note of the poportion (p) of points that have fallen inside the circle to the total number of points.
 This proportion gives 1/4 th of π. We then multiply the result with 4 to get an estimate of π.
 
+***
