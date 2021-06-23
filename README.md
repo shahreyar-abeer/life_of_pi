@@ -7,7 +7,7 @@ The app looks a bit like this.
 ![image](https://user-images.githubusercontent.com/20732893/123016033-8b227a80-d3eb-11eb-955c-7fbf26331244.png)  
 
 
-It was submitted to the [Shiny Contest 2020](https://blog.rstudio.com/2020/07/13/winners-of-the-2nd-shiny-contest/) where it won and **Honorable Mention**
+It was submitted to the [Shiny Contest 2020](https://blog.rstudio.com/2020/07/13/winners-of-the-2nd-shiny-contest/) where it won an **Honorable Mention**
 
 ## Background
 
