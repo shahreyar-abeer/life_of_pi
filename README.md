@@ -2,6 +2,15 @@
 
 [Link to app](https://shahreyar-abeer.shinyapps.io/life_of_pi/)
 
+The app looks a bit like this.
+
+![image](https://user-images.githubusercontent.com/20732893/123016033-8b227a80-d3eb-11eb-955c-7fbf26331244.png)  
+
+
+It was submitted to the [Shiny Contest 2020](https://blog.rstudio.com/2020/07/13/winners-of-the-2nd-shiny-contest/) where it won and **Honorable Mention**
+
+## Background
+
 This app is designed to run a Monte Carlo Simulation to estimate the value of π.
 I'm sorry to disappoint some of you who might have though it had something to do with the movie.
 But I can share a bit of history though.
